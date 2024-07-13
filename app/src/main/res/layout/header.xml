@@ -7,6 +7,7 @@
     android:background="@color/cardview_dark_background"
     android:gravity="bottom">
     <TextView
+        android:id="@+id/menu_header_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your name"
@@ -15,6 +16,7 @@
         android:textStyle="bold"
         />
     <TextView
+        android:id="@+id/menu_header_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your email"

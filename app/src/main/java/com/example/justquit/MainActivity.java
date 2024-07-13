@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
 
-
+    TextView menuHeaderUsername;
+    TextView menuHeaderEmail;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //auto generated android studio code
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -49,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+
+
+
+        //drawerLayout side menu functions OPENING mostly
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.open_nav, R.string.close_nav);
@@ -59,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         navigationView.setNavigationItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.logout){
+            if(item.getItemId() == R.id.menu_logout){
                 mAuth.signOut();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
@@ -67,36 +75,32 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+        //closing draweLayout
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                finish();
+            }
+        });
 
+        //getting two textViews from nav_view
+        View header = navigationView.getHeaderView(0);
+        menuHeaderEmail = header.findViewById(R.id.menu_header_email);
+        menuHeaderUsername = header.findViewById(R.id.menu_header_username);
 
+        //checking if user is logged in;
         mAuth = FirebaseAuth.getInstance();
-        //btnLogut = findViewById(R.id.btnLogout);
-        //tvUsernameDispaly = findViewById(R.id.tvUsernameDisplay);
         user = mAuth.getCurrentUser();
         if(user == null) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
         } else {
-            //tvUsernameDispaly.setText(user.getEmail());
+           menuHeaderUsername.setText(user.getDisplayName());
+           menuHeaderEmail.setText(user.getEmail());
         }
-
-        /*btnLogut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });*/
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        super.onBackPressed();
     }
 }
