@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -66,16 +67,25 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        //nav view on click
         navigationView.setNavigationItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.menu_logout){
+            if(item.getItemId() == R.id.menu_logout) {
                 mAuth.signOut();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            } else if(item.getItemId() == R.id.menu_home) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else if(item.getItemId() == R.id.menu_add_new) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
             }
             return false;
         });
-        //closing draweLayout
+        //closing drawerLayout
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
