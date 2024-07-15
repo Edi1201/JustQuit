@@ -6,11 +6,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView menuHeaderUsername;
     TextView menuHeaderEmail;
+
+    Button btnTest;
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -55,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-
+        btnTest = findViewById(R.id.btnTest);
+        btnTest.setOnClickListener(view -> {
+            ReadAndWrite readAndWrite = new ReadAndWrite();
+            readAndWrite.getSpecificUserInfo(user.getUid());
+        });
 
 
 
