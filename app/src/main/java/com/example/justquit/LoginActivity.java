@@ -54,52 +54,46 @@ public class LoginActivity extends AppCompatActivity {
         btnSwitchToRegister = findViewById(R.id.btnRegister);
         btnLogin = findViewById(R.id.btnLogin);
 
-        btnSwitchToRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        btnSwitchToRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(intent);
+            finish();
         });
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = String.valueOf(etUsername.getText());
-                String password = String.valueOf(etPassword.getText());
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(LoginActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(password)) {
-                    Toast.makeText(LoginActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(LoginActivity.this, "Logged in succesfully.",
-                                            Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-
-                                } else {
-                                    // If sign in fails, display a message to the user.
-
-                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-
+        btnLogin.setOnClickListener(view -> {
+            String email = String.valueOf(etUsername.getText());
+            String password = String.valueOf(etPassword.getText());
+            if(TextUtils.isEmpty(email)){
+                Toast.makeText(LoginActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
+                return;
             }
+            if(TextUtils.isEmpty(password)) {
+                Toast.makeText(LoginActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Toast.makeText(LoginActivity.this, "Logged in succesfully.",
+                                        Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+
+                            } else {
+                                // If sign in fails, display a message to the user.
+
+                                Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    });
+
         });
     }
 }

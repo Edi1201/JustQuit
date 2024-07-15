@@ -2,6 +2,7 @@ package com.example.justquit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +20,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.justquit.data.ReadAndWrite;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -79,9 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else if(item.getItemId() == R.id.menu_add_new) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddNewActivity.class);
                 startActivity(intent);
                 finish();
+                //ReadAndWrite readAndWrite = new ReadAndWrite();
+                //readAndWrite.writeUserInfo();
             }
             return false;
         });
